@@ -9,8 +9,12 @@ COPY . .
 # Instalar las dependencias de la aplicación
 RUN pip install -r requirements.txt
 
+# Copiar y dar permisos al script de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Exponer el puerto en el que se ejecutará la aplicación
 EXPOSE ${PORT}
 
-# Establecer el comando para ejecutar la aplicación
-CMD ["python", "manage.py", "runserver", "0.0.0.0:${PORT}"]
+# Configurar el script de entrada
+ENTRYPOINT ["/entrypoint.sh"]
