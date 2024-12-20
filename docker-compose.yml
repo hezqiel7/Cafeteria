@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  cafeteria_be:
+    build: ./cafeteria_be
+    ports:
+      - 8000:8000
+    depends_on:
+      - cafeteria_db
+    networks:
+      - cafeteria_net
+    env_file:
+      - .env
+
+  cafeteria_fe:
+    build: ./cafeteria_fe
+    ports:
+      - 5173:5173
+    networks:
+      - cafeteria_net
+    env_file:
+      - .env
+
+  cafeteria_db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - cafeteria_net
+    volumes:
+      - /cafeteria_data:/data/db
+    env_file:
+      - .env
+
+volumes:
+  cafeteria_data:
+networks:
+  cafeteria_net:
