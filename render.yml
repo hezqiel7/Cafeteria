@@ -1,0 +1,41 @@
+services:
+  - name: cafeteria-be
+    type: web
+    env: docker
+    buildCommand: "docker build ./cafeteria_be -t cafeteria_be"
+    startCommand: "docker run -p 8000:8000 cafeteria_be"
+    envVars:
+      - file: .env
+    plan: free
+    instances: 1
+    region: oregon
+    disk:
+      name: persistent
+      mountPath: /data/db
+      sizeGB: 1
+
+  - name: cafeteria-fe
+    type: web
+    env: docker
+    buildCommand: "docker build ./cafeteria_fe -t cafeteria_fe"
+    startCommand: "docker run -p 5173:5173 cafeteria_fe"
+    envVars:
+      - file: .env
+    plan: free
+    instances: 1
+    region: oregon
+
+  - name: cafeteria-db
+    type: web
+    env: docker
+    dockerImage: mongo:latest
+    startCommand: "mongod --dbpath /data/db"
+    envVars:
+      - file: .env
+    plan: free
+    instances: 1
+    region: oregon
+    disk:
+      name: persistent
+      mountPath: /data/db
+      sizeGB: 1
