@@ -10,7 +10,7 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Exponer el puerto en el que se ejecutará la aplicación
-EXPOSE 8000
+EXPOSE ${PORT}
 
 # Establecer el comando para ejecutar la aplicación
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:${PORT}"]
